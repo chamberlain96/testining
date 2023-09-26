@@ -1,12 +1,12 @@
 module "myvpc"{
-    source                             = "https://github.com/chamberlain96/testining/tree/main/modules/VPC"
+    source                             = "../modules/VPC"
     cidr_block                          = "10.0.0.0/16"
     vpc_name                             = "JOEL"
     vpc_id                                = "${module.myvpc.vpc_id}"
 }
 
 module "subnets"{
-    source                             = "https://github.com/chamberlain96/testining/tree/main/modules/subnets"
+    source                             = " ../modules/subnets"
     prt_vpc_id                          = "${module.myvpc.vpc_id}"
     prt_subnet_cidr                      = "10.0.2.0/24"
     prtsn_name                            = "joelprt"
@@ -23,13 +23,13 @@ module "subnets"{
     private_nacl_id                      =  "${module.subnets.nacl_id}"
 }
 module "IGW_block" {
-    source                             = "https://github.com/chamberlain96/testining/tree/main/modules/IGW"
+    source                             = " ../modules/IGW"
     IGW_vpc_id                          ="${module.myvpc.vpc_id}"
     igw_name                             = "lyongapubIGW"
   }
 
 module "rtandroutes"{
-    source                              = "https://github.com/chamberlain96/testining/tree/main/modules/RT%20%24%20Routes"
+    source                              = " ../modules/RT $ Routes"
     pubRT_name                           = "lyongapubrt"
     pub_route_table_vpcid                 = "${module.myvpc.vpc_id}"
     aws_subnet_PUB_id                      = "${module.subnets.PUB_subnet_id}"
@@ -48,7 +48,7 @@ module "rtandroutes"{
 }
 
 module "natGW_EIP" {
-    source                              = "https://github.com/chamberlain96/testining/tree/main/modules/NATGW"
+    source                              = " ../modules/NATGW"
     elasticip_name                       = "natelsip"
     aws_eip_elasticipid                   = "${module.natGW_EIP.eip_id}"
     connectivity_type                       = "public"
@@ -58,7 +58,7 @@ module "natGW_EIP" {
   
 }
 module "ec2_instances" {
-    source                                = "https://github.com/chamberlain96/testining/tree/main/modules/EC2"
+    source                                = " ../modules/EC2"
      ec2_count                              = "1"
      ami_id                                  = "ami-050e8a1e3661ac6b9"
      subnet_id                                 = "${module.subnets.PUB_subnet_id}"
